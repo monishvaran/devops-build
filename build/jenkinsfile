@@ -1,1 +1,43 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker-hub-credentials')
+        DEV_IMAGE_NAME = 'monishvaran/dev:latest'
+        PROD_IMAGE_NAME = 'monishvaran/prod:latest'
+    }
+    
+    stages {
+        stage('Build and Push Image') {
+            steps {
+                script {
+                    // Checkout code from Git repository
+                    git 'https://github.com/monishvaran/devops-build.git'
+                    
+                    // Build Docker image
+                    sh 'docker build -t $DEV_IMAGE_NAME .'
+                    
+                    // Log in to Docker Hub
+                    withDockerRegistry([credentialsId: DOCKER_CREDENTIALS, url: 'https://index.docker.io/v1/']) {
+                        // Push Docker image to dev repository
+                        sh 'docker push $DEV_IMAGE_NAME'
+                    }
+                }
+            }
+        }
+        stage('Deploy') {
+            // Add deployment steps here
+            // For example: deploy to Kubernetes, AWS, etc.
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
 
