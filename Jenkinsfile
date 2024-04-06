@@ -6,6 +6,7 @@ pipeline {
             steps {
                 script {
                     // Execute the build script
+                    sh 'chmod +x build.sh'
                     sh './build.sh'
                 }
             }
@@ -13,6 +14,7 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
+                        sh 'chmod +x deploy.sh'
                         sh './deploy.sh'
                     
                 }
