@@ -13,11 +13,8 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    // Log in to Docker Hub
-                    withDockerRegistry(url: 'https://index.docker.io/v1/') {
-                        // Execute the deploy script to push the image
                         sh './deploy.sh'
-                    }
+                    
                 }
             }
         }
