@@ -1,23 +1,19 @@
 #!/bin/bash
 
 # Define variables
-REMOTE_HOST="3.6.94.8"
-REMOTE_USER="ubuntu"
-REMOTE_DIR="/home/ubuntu/devops-build"
-IMAGE_NAME="devopstest"
+DOCKER_IMAGE="devopstest"
 TAG="react-application"
-REPOSITORY="docker.io/monishvaran"  # Replace 'monishvaran' with your Docker Hub username
 
-# Tag the Docker image for pushing
-docker tag "$IMAGE_NAME:$TAG" "$REPOSITORY/$IMAGE_NAME:$TAG"
+# Log in to Docker Hub
+echo "Logging in to Docker Hub..."
+docker login -u monishvaran -p subha@0103
 
-# Push the Docker image to the remote registry
-docker push "$REPOSITORY/$IMAGE_NAME:$TAG"
+# Tag the Docker image
+echo "Tagging the Docker image..."
+docker tag $DOCKER_IMAGE:$TAG monishvaran/dev:react-application
 
-# SSH into the remote server and pull the latest image
-ssh "$REMOTE_USER@$REMOTE_HOST" "docker pull $REPOSITORY/$IMAGE_NAME:$TAG"
+# Push the Docker image to Docker Hub
+echo "Pushing the Docker image to Docker Hub..."
+docker push monishvaran/dev:react-application
 
-# SSH into the remote server and restart the container with the new image
-ssh "$REMOTE_USER@$REMOTE_HOST" "docker-compose -f $REMOTE_DIR/docker-compose.yml up -d"
-
-
+echo "Image deployment completed successfully."
