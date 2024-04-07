@@ -1,9 +1,13 @@
 #!/bin/bash
 
-# Define variables
-IMAGE_NAME="devopstest"
-TAG="react-application"
+#login into DockerHub:
+docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
 
-# Build Docker image
-docker build -t "$IMAGE_NAME:$TAG" .
 
+
+#building a image:
+docker build -t devopstest:react-application .
+
+docker-compose down || true
+
+docker-compose up -d
