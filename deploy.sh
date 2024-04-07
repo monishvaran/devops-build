@@ -10,10 +10,10 @@ docker login -u monishvaran -p subha@0103
 
 # Tag the Docker image
 echo "Tagging the Docker image..."
-docker tag $DOCKER_IMAGE:$TAG monishvaran/dev:react-application
+docker tag $DOCKER_IMAGE:$TAG monishvaran/prod:react-application
 
 # Push the Docker image to Docker Hub
 echo "Pushing the Docker image to Docker Hub..."
-docker push monishvaran/dev:react-application
+docker push monishvaran/prod:react-application
 
 echo "Image deployment completed successfully."
